@@ -3,6 +3,7 @@
 // so “first” becomes “irst-fay.”
 // Words that start with a vowel have “hay” added to the end instead (“apple” becomes “apple-hay”).
 // Keep in mind the details about UTF-8 encoding!
+use std::fmt::Write;
 
 fn main() {
     println!("first: {}", pig_latin("first"));
@@ -14,15 +15,13 @@ fn main() {
 fn pig_latin(s: &str) -> String {
     let first_char = s.chars().next().expect("valid first char");
     if ['a', 'e', 'i', 'o', 'u'].contains(&first_char) {
-        let mut word = String::from(s);
-        word.push_str("-hay");
-        word
+        format!("{}-hay", s)
     } else {
         let mut word = String::new();
         for c in s.chars().skip(1) {
             word.push(c);
         }
-        word.push_str(&format!("-{}ay", first_char));
+        write!(word, "-{}ay", first_char).unwrap();
         word
     }
 }
