@@ -7,7 +7,13 @@ use std::io;
 // Then let the user retrieve a list of all people in a department or all people in the company by department, sorted alphabetically.
 fn main() {
     println!(
-        "Add new employee to department in the following format:\n\"Add Sally to Engineering\"\n Or list employees in a department with the \"list Engineering\" command"
+        "Add new employee to department in the following format:\n\
+        \"Add Sally to Engineering\"\n\
+        Or list employees in a department:\n\
+        \"list Engineering\"\n\
+        or list all employees:\n\
+        \"list\"\n\
+        "
     );
     let mut departments: HashMap<String, Vec<String>> = HashMap::new();
     // let mut departments = HashMap::new();
@@ -19,6 +25,15 @@ fn main() {
 
         let parsed: Vec<&str> = input.trim().split(' ').collect();
         match parsed.len() {
+            1 => {
+                if parsed[0].len() == 0 {
+                    continue;
+                }
+                for (dep, employees) in &mut departments {
+                    employees.sort();
+                    println!("Department: {}, employees: {:?}", dep, employees)
+                }
+            }
             2 => match departments.get_mut(parsed[1]) {
                 Some(employees) => {
                     employees.sort();
@@ -44,17 +59,3 @@ fn main() {
         }
     }
 }
-
-// fn pig_latin(s: &str) -> String {
-//     let first_char = s.chars().next().expect("valid first char");
-//     if ['a', 'e', 'i', 'o', 'u'].contains(&first_char) {
-//         format!("{}-hay", s)
-//     } else {
-//         let mut word = String::new();
-//         for c in s.chars().skip(1) {
-//             word.push(c);
-//         }
-//         write!(word, "-{}ay", first_char).unwrap();
-//         word
-//     }
-// }

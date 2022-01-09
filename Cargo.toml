@@ -5,6 +5,10 @@ version = "0.1.0"
 edition = "2021"
 
 [[bin]]
+name = "guessing_game"
+src = "src/guessing_game.rs"
+
+[[bin]]
 name = "piglatin"
 src = "src/piglatin.rs"
 
@@ -14,3 +18,4 @@ src = "src/team.rs"
 
 
 [dependencies]
+rand = "0.8.3"
