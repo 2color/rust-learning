@@ -1,27 +1,40 @@
-// Convert strings to pig latin.
-// The first consonant of each word is moved to the end of the word and “ay” is added,
-// so “first” becomes “irst-fay.”
-// Words that start with a vowel have “hay” added to the end instead (“apple” becomes “apple-hay”).
-// Keep in mind the details about UTF-8 encoding!
-use std::fmt::Write;
+use rand::Rng;
+use std::cmp::Ordering;
+use std::io;
 
 fn main() {
-    println!("first: {}", pig_latin("first"));
-    println!("apple: {}", pig_latin("apple"));
-    println!("cheese: {}", pig_latin("cheese"));
-    println!("elegant: {}", pig_latin("elegant"));
-}
+    println!("Guess the number!");
 
-fn pig_latin(s: &str) -> String {
-    let first_char = s.chars().next().expect("valid first char");
-    if ['a', 'e', 'i', 'o', 'u'].contains(&first_char) {
-        format!("{}-hay", s)
-    } else {
-        let mut word = String::new();
-        for c in s.chars().skip(1) {
-            word.push(c);
+    let secret_number = rand::thread_rng().gen_range(0..=100);
+    println!("Your secret number is {}", secret_number);
+
+    loop {
+        println!("Please input your guess.");
+        
+        let mut guess = String::new();
+        
+        io::stdin()
+        .read_line(&mut guess)
+            .expect("Failed to read line");
+
+        let guess: u32 = guess.trim().parse().expect("Please type a number!");
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => {
+              println!("Invalid number! Try agin.");
+              continue
+            }
+        };
+
+        println!("You guessed: {}", guess);
+
+        match guess.cmp(&secret_number) {
+            Ordering::Less => println!("Too small!"),
+            Ordering::Greater => println!("Too big!"),
+            Ordering::Equal => {
+                println!("You win!");
+                break;
+            }
         }
-        write!(word, "-{}ay", first_char).unwrap();
-        word
     }
 }

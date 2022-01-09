@@ -1,8 +1,16 @@
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [package]
-name = "pig-latin"
+name = "collections"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[[bin]]
+name = "piglatin"
+src = "src/piglatin.rs"
+
+[[bin]]
+name = "team"
+src = "src/team.rs"
+
 
 [dependencies]
